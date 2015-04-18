@@ -7,7 +7,7 @@ export ZSH=/home/timlentse/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="powerline"
 
-POWERLINE_DEFAULT_USER="timlentse"
+POWERLINE_DEFAULT_USER=$USER
 
 # Uncomment the following line to use case-sensitive completion.
 CASE_SENSITIVE="true"
@@ -51,7 +51,7 @@ plugins=(git bundler osx rake ruby fasd)
 
 # User configuration
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games::/home/timlentse/.rvm/bin:/home/timlentse/.rvm/bin"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # Start byobu on when starting terminal
@@ -69,6 +69,9 @@ if [ "$TERM" = xterm ]; then TERM=xterm-256color; fi
 # else
 #   export EDITOR='mvim'
 # fi
+#
+# Setting dir colors
+eval "$(dircolors ~/.dir_colors/dircolors.256dark)"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
