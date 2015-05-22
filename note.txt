@@ -1,5 +1,0 @@
-text-color(rgb) 110 103 101
-text-color-name: #6E6765
-bg-color(rgb) 28 28 28
-bg-color-name: #1C1C1C
-

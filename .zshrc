@@ -1,10 +1,7 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/timlentse/.oh-my-zsh
+export ZSH=/Users/timlen/.oh-my-zsh
 
 # Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
 ZSH_THEME="powerline"
 
 POWERLINE_DEFAULT_USER=$USER
@@ -25,10 +22,10 @@ CASE_SENSITIVE="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
- ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
- COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -47,21 +44,23 @@ CASE_SENSITIVE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git bundler osx rake ruby fasd)
+plugins=(git bundler osx rake rails ruby fasd)
 
 # User configuration
 
+# PATH ENV
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-# export MANPATH="/usr/local/man:$MANPATH"
 
 # Start byobu on when starting terminal
 # byobu
 
 source $ZSH/oh-my-zsh.sh
+
 # Coustomize highlight in zsh
 if [ "$TERM" = xterm ]; then TERM=xterm-256color; fi
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+
+# Set language environment
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -70,20 +69,54 @@ if [ "$TERM" = xterm ]; then TERM=xterm-256color; fi
 #   export EDITOR='mvim'
 # fi
 #
-# Setting dir colors
-eval "$(dircolors ~/.dir_colors/dircolors.256dark)"
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
 
 # ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+# Set alias command shortcut {
+alias gs='git status'
+alias rm='rm -rf'
+alias bri='brew install'
+alias bru='brew update'
+alias brd='brew doctor'
+alias sdi='sudo apt-get install'
+alias vz='vi ~/.zshrc'
+alias vm='vi ~/.vimrc'
+alias bi='sudo bundle install --verbose'
+alias gi='sudo gem install --verbose'
+# }
+
+# Command highlight for zsh
+setopt extended_glob
+TOKENS_FOLLOWED_BY_COMMANDS=('|' '||' ';' '&' '&&' 'sudo' 'do' 'time' 'strace')
+
+recolor-cmd() {
+  region_highlight=()
+  colorize=true
+  start_pos=0
+  for arg in ${(z)BUFFER}; do
+    ((start_pos+=${#BUFFER[$start_pos+1,-1]}-${#${BUFFER[$start_pos+1,-1]## #}}))
+    ((end_pos=$start_pos+${#arg}))
+    if $colorize; then
+      colorize=false
+      res=$(LC_ALL=C builtin type $arg 2>/dev/null)
+      case $res in
+        *'reserved word'*)   style="fg=magenta,bold";;
+        *'alias for'*)       style="fg=cyan,bold";;
+        *'shell builtin'*)   style="fg=yellow,bold";;
+        *'shell function'*)  style='fg=green,bold';;
+        *"$arg is"*)
+          [[ $arg = 'sudo' ]] && style="fg=red,bold" || style="fg=blue,bold";;
+        *)                   style='none,bold';;
+      esac
+      region_highlight+=("$start_pos $end_pos $style")
+    fi
+    [[ ${${TOKENS_FOLLOWED_BY_COMMANDS[(r)${arg//|/\|}]}:+yes} = 'yes' ]] && colorize=true
+    start_pos=$end_pos
+  done
+}
+check-cmd-self-insert() { zle .self-insert && recolor-cmd }
+check-cmd-backward-delete-char() { zle .backward-delete-char && recolor-cmd }
+
+zle -N self-insert check-cmd-self-insert
+zle -N backward-delete-char check-cmd-backward-delete-char
