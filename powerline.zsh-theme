@@ -18,7 +18,7 @@ elif [ "$POWERLINE_RIGHT_A" = "date" ]; then
   POWERLINE_RIGHT_A="$POWERLINE_DATE_FORMAT"
 fi
 
-if [ "$POWERLINE_DEFAULT_USER"   = "timlentse" ]; then
+if [ "$POWERLINE_DEFAULT_USER"   = "$USER" ]; then
     POWERLINE_USER_NAME="~"
 elif [ "$POWERLINE_HIDE_USER_NAME" = "" ] && [ "$POWERLINE_HIDE_HOST_NAME" = "" ]; then
     POWERLINE_USER_NAME="%n@%M"
