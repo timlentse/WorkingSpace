@@ -43,6 +43,7 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # Set language environment
 export LANG=en_US.UTF-8
+export LC_CTYPE="en_US.UTF-8"
 
 # Set rails environment
 export RAILS_ENV=development
@@ -67,6 +68,7 @@ alias vm='vi ~/.vimrc'
 alias bi='sudo bundle install --verbose'
 alias gi='sudo gem install --verbose'
 alias gtr='cd "$(git rev-parse --show-toplevel)" '
+alias fuck='eval $(thefuck $(fc -ln -1 | tail -n 1)); fc -R'
 # }
 
 # Command highlight for zsh {
@@ -107,3 +109,4 @@ zle -N backward-delete-char check-cmd-backward-delete-char
 # }
 
 # }}}
+

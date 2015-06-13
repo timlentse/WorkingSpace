@@ -158,4 +158,5 @@ map cb c$
 nnoremap dt d^
 nnoremap db d$
 nnoremap <Space> <C-d> 
+nnoremap fs :CtrlPMRU<CR>
 " }}}
