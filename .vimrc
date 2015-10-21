@@ -9,7 +9,8 @@ if !filereadable(vundle_readme)
 endif
 " }}}
 
-" Vim setting {{{
+" Vim basic setting {{{
+
 " Use dark background and enable syntax highlight
 syntax enable
 set background=dark
@@ -26,7 +27,6 @@ set scrolloff=5
 set backspace=indent,eol,start
 " }
 
-" Vim setting {
 set showcmd		  " Show (partial) command in status line.
 set showmatch		" Show matching brackets.
 set ignorecase	" Do case insensitive matching
@@ -34,39 +34,37 @@ set smartcase		" Do smart case matching
 set incsearch		" Incremental search
 set autowrite		" Automatically save before commands like :next and :make
 set hidden		  " Hide buffers when they are abandoned
-"set mouse=a		  " Enable mouse usage (all modes)
-
-" Indention setting {
-" size of a hard tabstop
-set tabstop=2
-
-" Always uses spaces instead of tab characters
-set expandtab
-
-" size of an  indent " 
-set shiftwidth=2
-
-"auto indention
-set autoindent
-
-" disable continue comment
-set formatoptions-=cro
-" }
+set number 
+set formatoptions-=cro " Disable continue comment
 
 " Don't use .swp files, git commit a lot and log your changes
 set nobackup
 set noswapfile
 
-"auto save
-set autowrite
+"Hightlight search
+set hlsearch
 
-"folding feature setting {
+" folding feature setting {
 set foldmethod=marker
 set foldlevel=0
 set modelines=1
 " }
 
-" }
+" Default indetation {{{
+" size of a hard tabstop
+set tabstop=2
+" Always uses spaces instead of tab characters
+set expandtab
+" size of an indent " 
+set shiftwidth=2
+"}}}
+
+" Indetation setting according filetype {{{
+autocmd FileType php setlocal ts=4 sts=4 sw=4 expandtab
+autocmd FileType html setlocal ts=4 sts=4 sw=4 expandtab
+autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
+"}}}
+
 " Source a global configuration file if available
 if filereadable("/etc/vim/vimrc.local")
   source /etc/vim/vimrc.local
@@ -75,7 +73,6 @@ endif
 " }}}
 
 " Vundle plugin management  {{{
-set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
@@ -103,6 +100,14 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-rails'
 Plugin 'tomtom/tcomment_vim'
 
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+Plugin 'ecomba/vim-ruby-refactoring'
+
+" snippets
+Plugin 'honza/vim-snippets'
+
 " Fast navigate file tool
 Plugin 'kien/ctrlp.vim'
 
@@ -114,6 +119,16 @@ Plugin 'altercation/vim-colors-solarized'
 "Vim substitute preview tool
 Plugin 'osyo-manga/vim-over'
 
+"Ack 
+Plugin 'mileszs/ack.vim'
+
+"easymotion
+Plugin 'easymotion/vim-easymotion'
+" Autoclose
+Plugin 'jiangmiao/auto-pairs'
+
+Plugin 'Chiel92/vim-autoformat'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
@@ -121,17 +136,20 @@ call vundle#end()            " required
 
 " File level setting {{{
 filetype plugin indent on    " required
+filetype plugin on 
 "open a NERDTree automatically when vim starts up if no files were specified?
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
 " File type icon
 set guifont=Literation\ Mono\ Powerline\ Plus\ Nerd\ File\ Types:h11
+let g:snipMate = {}
+let g:snipMate.scope_aliases = {}
+let g:snipMate.scope_aliases['ruby'] = 'ruby,rails'
 "}}}
 
 "Mapping Key {{{
 map t ^
-nnoremap ba $
+nnoremap 4 $
 nnoremap rf gg^vG^=
 map ; :
 map m :set number<CR>
@@ -159,4 +177,13 @@ nnoremap dt d^
 nnoremap db d$
 nnoremap <Space> <C-d> 
 nnoremap fs :CtrlPMRU<CR>
+nnoremap <leader>t :NERDTreeToggle<CR>
+nmap s <Plug>(easymotion-s2)
+let g:EasyMotion_smartcase = 1
+imap pp <esc>a<Plug>snipMateNextOrTrigger
+smap pp <Plug>snipMateNextOrTrigger
+nnoremap 5 %
+nnoremap 1 za
+nnoremap , zO
+nnoremap ,, zC
 " }}}

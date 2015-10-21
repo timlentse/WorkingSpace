@@ -46,10 +46,14 @@ export LANG=en_US.UTF-8
 export LC_CTYPE="en_US.UTF-8"
 
 # Set rails environment
-export RAILS_ENV=development
+# export RAILS_ENV=development
+export RAILS_ENV=production
 
 # ssh
 export SSH_KEY_PATH="~/.ssh"
+
+#RAILS_ENV_SECRET
+export SECRET_KEY_BASE="c8f73956e6c009fed776f919776c6424599e664e"
 
 # }
 
@@ -69,6 +73,9 @@ alias bi='sudo bundle install --verbose'
 alias gi='sudo gem install --verbose'
 alias gtr='cd "$(git rev-parse --show-toplevel)" '
 alias fuck='eval $(thefuck $(fc -ln -1 | tail -n 1)); fc -R'
+alias vih='sudo vi /etc/hosts'
+alias php-cli='php -a'
+alias tail='tail -f'
 # }
 
 # Command highlight for zsh {
