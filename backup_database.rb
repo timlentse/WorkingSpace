@@ -21,5 +21,5 @@ options = "--skip-extended-insert --hex-blob --lock-tables=false"
 backup_file = "#{backup_dir}/#{db_config[:database]}_#{today}.sql"
 `mysqldump -h#{db_config[:host]} -u#{db_config[:username]} -p#{db_config[:password]} #{options} #{db_config[:database]} | gzip -c > #{backup_file}.gz`
 
-old_file = "#{backup_dir}/#{db_config[:database]}_#{old_date}.sql"
+old_file = "#{backup_dir}/#{db_config[:database]}_#{old_date}.sql.gz"
 `rm -f #{old_file}`

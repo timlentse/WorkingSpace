@@ -12,6 +12,7 @@ endif
 " Vim basic setting {{{
 
 " Use dark background and enable syntax highlight
+set nocompatible
 syntax enable
 set background=dark
 
@@ -52,13 +53,13 @@ set modelines=1
 
 " Default indetation {{{
 " size of a hard tabstop
+set autoindent
 set tabstop=2
 " Always uses spaces instead of tab characters
 set expandtab
 " size of an indent " 
 set shiftwidth=2
-"}}}
-
+"}}} 
 " Indetation setting according filetype {{{
 autocmd FileType php setlocal ts=4 sts=4 sw=4 expandtab
 autocmd FileType html setlocal ts=4 sts=4 sw=4 expandtab
@@ -85,7 +86,6 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-Plugin 'davidhalter/jedi-vim'
 Plugin 'paradigm/vim-multicursor'
 Plugin 'tpope/vim-fugitive'
 Plugin 'Valloric/YouCompleteMe'
@@ -136,7 +136,6 @@ call vundle#end()            " required
 
 " File level setting {{{
 filetype plugin indent on    " required
-filetype plugin on 
 "open a NERDTree automatically when vim starts up if no files were specified?
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
@@ -187,3 +186,8 @@ nnoremap 1 za
 nnoremap , zO
 nnoremap ,, zC
 " }}}
+" For crontab 
+if $VIM_CRONTAB == "true"
+  set nobackup
+  set nowritebackup
+endif
