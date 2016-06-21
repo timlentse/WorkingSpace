@@ -15,7 +15,8 @@ get_distribution_name(){
 
 distribution_name=$(get_distribution_name)
 
-# install redis
+# install redis by compiling source code
+
 install_redis(){
   redis_dir_name=/usr/local/redis-3.2.0
   echo "Install redis by compiling from source code...\n
@@ -32,7 +33,8 @@ install_redis(){
   cd 
 }
 
-# install ruby
+# install ruby by compiling source code
+
 install_ruby(){
   ruby_dir_name="ruby-2.3.1"
   echo "Install ruby by compiling from source code...\n
@@ -50,19 +52,28 @@ install_ruby(){
   cd 
 }
 
-# install oh-my-zsh 
+# install some important gems when ruby is ready
+
+install_gems(){
+  gem install bundler rails
+}
+
+# install amazing tool `oh-my-zsh` 
+
 install_oh_my_zsh(){
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
 }
+
 # install stuff (zsh, mosh, git, nginx, mysql, redis, openssl ruby)
+
 install_stuff(){
   case "$distribution_name" in
     'mac')
       brew update
-      brew install mosh zsh git nginx mysql redis
       brew install openssl
+      brew install mosh zsh git nginx mysql redis ruby
       brew install nodejs
+      install_gems
       ;;
     'ubuntu')
       apt-get update
@@ -74,6 +85,7 @@ install_stuff(){
       # for js runtime 
       apt-get -y install nodejs
       install_ruby
+      install_gems
       ;;
     'centos')
       yum update
@@ -81,6 +93,7 @@ install_stuff(){
       install_redis
       yum -y install openssl openssl-devel
       yum -y install nodejs
+      install_gems
       ;;
   esac
 }
