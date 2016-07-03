@@ -186,7 +186,8 @@ nnoremap 1 za
 nnoremap , zO
 nnoremap ,, zC
 " }}}
-" For crontab 
+
+" Set vim as default editor for crontab 
 if $VIM_CRONTAB == "true"
   set nobackup
   set nowritebackup
