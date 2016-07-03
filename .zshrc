@@ -61,7 +61,6 @@ source $ZSH/oh-my-zsh.sh
 
 # Set alias command shortcut {
 alias gs='git status'
-alias rm='rm -rf'
 alias bri='brew install'
 alias bru='brew update'
 alias brd='brew doctor'

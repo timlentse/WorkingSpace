@@ -89,7 +89,7 @@ install_stuff(){
       ;;
     'centos')
       yum update
-      yum -y install mosh zsh git nginx mysql-client mysql-server
+      yum -y install mosh zsh git nginx mysql-client mysql-server ImageMagick ImageMagick-c++-devel 
       install_redis
       yum -y install openssl openssl-devel
       yum -y install nodejs
