@@ -33,7 +33,7 @@ install_redis(){
   cd 
 }
 
-# install ruby by compiling source code
+# Install ruby by compiling source code
 
 install_ruby(){
   ruby_dir_name="ruby-2.3.1"

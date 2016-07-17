@@ -17,10 +17,6 @@ ENABLE_CORRECTION="true"
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
 plugins=(git bundler osx rake rails ruby fasd)
 
 # }}}
@@ -45,13 +41,13 @@ export LC_CTYPE="en_US.UTF-8"
 # Set Vim as default editor
 export EDITOR=vim
 
-# Set rails environment
+# Set rails environment( development production )
 export RAILS_ENV=production
 
-# ssh
+# SSH
 export SSH_KEY_PATH="~/.ssh"
 
-#RAILS_ENV_SECRET
+# RAILS_ENV_SECRET(You may change this)
 export SECRET_KEY_BASE="c8f73956e6c009fed776f919776c6424599e664e"
 # }
 
@@ -90,10 +86,10 @@ for arg in ${(z)BUFFER}; do
     colorize=false
     res=$(LC_ALL=C builtin type $arg 2>/dev/null)
     case $res in
-      *'reserved word'*)   style="fg=magenta,bold";;
-      *'alias for'*)       style="fg=cyan,bold";;
-      *'shell builtin'*)   style="fg=yellow,bold";;
-      *'shell function'*)  style='fg=green,bold';;
+      *'reserved word'*)   style="fg=magenta,bold";
+      *'alias for'*)       style="fg=cyan,bold";
+      *'shell builtin'*)   style="fg=yellow,bold";
+      *'shell function'*)  style='fg=green,bold';
       *"$arg is"*)
         [[ $arg = 'sudo' ]] && style="fg=red,bold" || style="fg=blue,bold";;
       *)                   style='none,bold';;
