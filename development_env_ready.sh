@@ -45,14 +45,14 @@ install_ruby(){
     wget "https://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.1.tar.gz"
     tar -xzvf ruby-2.3.1.tar.gz
   fi
-  cd $dir_name
+  cd $ruby_dir_name
   ./configure
   make 
   make install
   cd 
 }
 
-# install some important gems when ruby is ready
+# Install some important gems when ruby is ready
 
 install_gems(){
   gem install bundler rails
@@ -64,7 +64,7 @@ install_oh_my_zsh(){
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 }
 
-# install stuff (zsh, mosh, git, nginx, mysql, redis, openssl ruby)
+# Install stuff (zsh, mosh, git, nginx, mysql, redis, openssl ruby)
 
 install_stuff(){
   case "$distribution_name" in
