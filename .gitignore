@@ -21,3 +21,4 @@
 /config/puma.rb
 /Capfile
 /.credentials
+/config/secrets.yml
