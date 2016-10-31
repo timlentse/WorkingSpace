@@ -1,14 +1,3 @@
-" Vundle automatical installation {{{
-let iCanHazVundle=1
-let vundle_readme=expand('~/.vim/bundle/Vundle.vim/README.md')
-if !filereadable(vundle_readme)
-  echo "Installing Vundle for current user"
-  silent !mkdir -p ~/.vim/bundle
-  silent !git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-  let iCanHazVundle=0
-endif
-" }}}
-
 " Vim basic setting {{{
 
 " Use dark background and enable syntax highlight
@@ -60,6 +49,8 @@ set expandtab
 " size of an indent " 
 set shiftwidth=2
 "}}} 
+"
+"
 " Indetation setting according filetype {{{
 autocmd FileType php setlocal ts=4 sts=4 sw=4 expandtab
 autocmd FileType html setlocal ts=4 sts=4 sw=4 expandtab
@@ -74,63 +65,92 @@ endif
 " }}}
 
 " Vundle plugin management  {{{
-filetype off                  " required
+function s:StartVundle()
+  filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+  " set the runtime path to include Vundle and initialize
+  set rtp+=~/.vim/bundle/Vundle.vim
+  call vundle#begin()
+  " alternatively, pass a path where Vundle should install plugins
+  "call vundle#begin('~/some/path/here')
 
-" let Vundle manage Vundle, required and keep Plugin commands between vundle#begin/end.
+  " let Vundle manage Vundle, required and keep Plugin commands between vundle#begin/end.
 
-Plugin 'gmarik/Vundle.vim'
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-Plugin 'paradigm/vim-multicursor'
-Plugin 'tpope/vim-fugitive'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'scrooloose/nerdtree'
-Plugin 'bling/vim-airline'
-Plugin 'ryanoasis/vim-webdevicons'
-Plugin 'ervandew/supertab'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'tpope/vim-endwise'
-Plugin 'm2ym/rsense'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-rails'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
-Plugin 'ecomba/vim-ruby-refactoring'
+  Plugin 'gmarik/Vundle.vim'
+  Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+  Plugin 'paradigm/vim-multicursor'
+  Plugin 'tpope/vim-fugitive'
+  Plugin 'Valloric/YouCompleteMe'
+  Plugin 'scrooloose/nerdtree'
+  Plugin 'bling/vim-airline'
+  Plugin 'ryanoasis/vim-webdevicons'
+  Plugin 'ervandew/supertab'
+  Plugin 'vim-ruby/vim-ruby'
+  Plugin 'tpope/vim-endwise'
+  Plugin 'm2ym/rsense'
+  Plugin 'tpope/vim-repeat'
+  Plugin 'tpope/vim-rails'
+  Plugin 'tomtom/tcomment_vim'
 
-" snippets
-Plugin 'honza/vim-snippets'
+  Plugin 'MarcWeber/vim-addon-mw-utils'
+  Plugin 'tomtom/tlib_vim'
+  Plugin 'garbas/vim-snipmate'
+  Plugin 'ecomba/vim-ruby-refactoring'
 
-" Fast navigate file tool
-Plugin 'kien/ctrlp.vim'
+  " snippets
+  Plugin 'honza/vim-snippets'
 
-"auto saves file, quite useful when I choose not to use swap files {
-Plugin 'vim-scripts/vim-auto-save'
-" }
-Plugin 'altercation/vim-colors-solarized'
+  " Fast navigate file tool
+  Plugin 'kien/ctrlp.vim'
 
-"Vim substitute preview tool
-Plugin 'osyo-manga/vim-over'
+  "auto saves file, quite useful when I choose not to use swap files {
+  Plugin 'vim-scripts/vim-auto-save'
+  " }
+  Plugin 'altercation/vim-colors-solarized'
 
-"Ack 
-Plugin 'mileszs/ack.vim'
+  "Vim substitute preview tool
+  Plugin 'osyo-manga/vim-over'
 
-"easymotion
-Plugin 'easymotion/vim-easymotion'
-" Autoclose
-Plugin 'jiangmiao/auto-pairs'
+  "Ack 
+  Plugin 'mileszs/ack.vim'
 
-Plugin 'Chiel92/vim-autoformat'
+  "easymotion
+  Plugin 'easymotion/vim-easymotion'
+  " Autoclose
+  Plugin 'jiangmiao/auto-pairs'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
+  Plugin 'Chiel92/vim-autoformat'
 
+  " All of your Plugins must be added before the following line
+  call vundle#end()            " required
+endfunction
+
+" }}}
+
+" Vundle automatical installation {{{
+let s:path = $HOME . '/.vim/bundle/Vundle.vim'
+let vundle_repo = 'https://github.com/VundleVim/Vundle.vim.git'
+execute 'set runtimepath+=' . s:path
+runtime autoload/vundle.vim
+if ! exists('*vundle#rc') 
+  if executable('git')  
+    if confirm('Would you want to install vundle?', "&Yes\n&No", 2, 'Qusetion') == 1 && mkdir(s:path, 'p')
+      echo 'Cloning vundle...'
+      execute '! git clone ' . vundle_repo . ' ' . s:path
+      if v:shell_error
+        echomsg 'Cannot clone ' . vundle_repo . s:path . ' may be not empty'
+      else
+        echo "Hit Enter to installing Plugins..."
+        call s:StartVundle()
+        autocmd VimEnter * PluginInstall
+      endif
+    else
+      echomsg "You have cancel."
+    endif
+  else
+    echomsg "You should install git and continue."
+  endif
+endif
 " }}}
 
 " File level setting {{{
@@ -146,6 +166,9 @@ let g:snipMate.scope_aliases['ruby'] = 'ruby,rails'
 "}}}
 
 "Mapping Key {{{
+"hot keys for ctags
+noremap ] <C-]>
+noremap [ <C-t>
 map t ^
 nnoremap 4 $
 nnoremap rf gg^vG^=
@@ -164,6 +187,8 @@ map ec :Econtroller
 map ej :Ejavascript
 map es :Estylesheet
 map ei :Eimages
+map ema :Email
+map eb :Ejob
 "}
 map cap ca(
 map caq ca"
@@ -178,16 +203,17 @@ nnoremap fs :CtrlPMRU<CR>
 nnoremap <leader>t :NERDTreeToggle<CR>
 nmap s <Plug>(easymotion-s2)
 let g:EasyMotion_smartcase = 1
-imap pp <esc>a<Plug>snipMateNextOrTrigger
-smap pp <Plug>snipMateNextOrTrigger
+imap ,, <esc>a<Plug>snipMateNextOrTrigger
+smap ,, <Plug>snipMateNextOrTrigger
 nnoremap 5 %
 nnoremap 1 za
 nnoremap , zO
 nnoremap ,, zC
 " }}}
 
-" Set vim as default editor for crontab 
+" Set vim as crontab editor {{{
 if $VIM_CRONTAB == "true"
   set nobackup
   set nowritebackup
 endif
+"}}}

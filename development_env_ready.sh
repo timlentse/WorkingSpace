@@ -93,6 +93,7 @@ install_stuff(){
       install_redis
       yum -y install openssl openssl-devel
       yum -y install nodejs
+      install_ruby
       install_gems
       ;;
   esac
