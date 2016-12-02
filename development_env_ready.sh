@@ -15,19 +15,20 @@ get_distribution_name(){
 
 distribution_name=$(get_distribution_name)
 
-# install redis by compiling source code
+# Install redis by compiling source code
 
 install_redis(){
-  redis_dir_name=/usr/local/redis-3.2.0
+  redis_dir_name="redis-3.2.0"
   echo "Install redis by compiling from source code...\n
   version: 3.2.0\n"
-  if [ -d "$redis_dir_name" ];then
+  if [ -f "$redis_dir_name.tar.gz" ];then
     echo "Already Downloaded!"
+    tar -xzvf redis-3.2.0.tar.gz -C /usr/local/
   else
     wget "http://download.redis.io/releases/redis-3.2.0.tar.gz"
     tar -xzvf redis-3.2.0.tar.gz -C /usr/local/
   fi
-  cd "$redis_dir_name"
+  cd "/usr/local/$redis_dir_name"
   make 
   make install
   cd 
@@ -39,8 +40,9 @@ install_ruby(){
   ruby_dir_name="ruby-2.3.1"
   echo "Install ruby by compiling from source code...\n
   version: 2.3.1\n"
-  if [ -d "$ruby_dir_name" ];then
+  if [ -f "$ruby_dir_name.tar.gz" ];then
     echo "Already downloaded!"
+    tar -xzvf ruby-2.3.1.tar.gz
   else
     wget "https://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.1.tar.gz"
     tar -xzvf ruby-2.3.1.tar.gz
@@ -58,7 +60,7 @@ install_gems(){
   gem install bundler rails
 }
 
-# install amazing tool `oh-my-zsh` 
+# Install amazing tool `oh-my-zsh` 
 
 install_oh_my_zsh(){
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -80,19 +82,18 @@ install_stuff(){
       apt-get -y install build-essential
       apt-get -y install imagemagick libmagick++-dev
       apt-get -y install mosh zsh git nginx mysql-client mysql-server libmysql++-dev libmysqlclient-dev libmysql++3
-      install_redis
       apt-get -y install openssl libssl-dev
-      # for js runtime 
       apt-get -y install nodejs
+      install_redis
       install_ruby
       install_gems
       ;;
     'centos')
       yum update
       yum -y install mosh zsh git nginx mysql-client mysql-server ImageMagick ImageMagick-c++-devel 
-      install_redis
       yum -y install openssl openssl-devel
       yum -y install nodejs
+      install_redis
       install_ruby
       install_gems
       ;;
