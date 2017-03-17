@@ -3,13 +3,13 @@ plantform_name=$(python -mplatform | tr '[:upper:]' '[:lower:]')
 get_distribution_name(){
   case "$plantform_name" in
     *darwin*)
-      echo 'mac'
+      echo "the plantform is mac\n"
       ;;
     *ubuntu*)
-      echo 'ubuntu'
+      echo "the plantform is ubuntu\n"
       ;;
     *centos*)
-      echo 'centos'
+      echo "the plantform is centos\n"
   esac
 }
 
@@ -18,36 +18,32 @@ distribution_name=$(get_distribution_name)
 # Install redis by compiling source code
 
 install_redis(){
-  redis_dir_name="redis-3.2.0"
-  echo "Install redis by compiling from source code...\n
-  version: 3.2.0\n"
+  redis_version="3.2.0"
+  echo "Install redis by compiling from source code...\nversion: $redis_version\n"
   if [ -f "$redis_dir_name.tar.gz" ];then
-    echo "Already Downloaded!"
-    tar -xzvf redis-3.2.0.tar.gz -C /usr/local/
+    tar -xzvf redis-$redis_version.tar.gz -C /usr/local/
   else
-    wget "http://download.redis.io/releases/redis-3.2.0.tar.gz"
-    tar -xzvf redis-3.2.0.tar.gz -C /usr/local/
+    wget "http://download.redis.io/releases/redis-$redis_version.tar.gz"
+    tar -xzvf redis-$redis_version.tar.gz -C /usr/local/
   fi
-  cd "/usr/local/$redis_dir_name"
+  cd "/usr/local/redis-$redis_version"
   make 
   make install
   cd 
 }
 
-# Install ruby by compiling source code
+# Install ruby 2.3.1 by compiling source code 
 
 install_ruby(){
-  ruby_dir_name="ruby-2.3.1"
-  echo "Install ruby by compiling from source code...\n
-  version: 2.3.1\n"
-  if [ -f "$ruby_dir_name.tar.gz" ];then
-    echo "Already downloaded!"
-    tar -xzvf ruby-2.3.1.tar.gz
+  ruby_version="2.3.1"
+  echo "Install ruby by compiling from source code...\nversion: $ruby_version\n"
+  if [ -f "ruby-$ruby_version.tar.gz" ];then
+    tar -xzvf ruby-$ruby_version.tar.gz
   else
-    wget "https://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.1.tar.gz"
-    tar -xzvf ruby-2.3.1.tar.gz
+    wget "https://cache.ruby-lang.org/pub/ruby/2.3/ruby-$ruby_version.tar.gz"
+    tar -xzvf ruby-$ruby_version.tar.gz
   fi
-  cd $ruby_dir_name
+  cd ruby-$ruby_version
   ./configure
   make 
   make install
@@ -72,27 +68,22 @@ install_stuff(){
   case "$distribution_name" in
     'mac')
       brew update
-      brew install openssl
-      brew install mosh zsh git nginx mysql redis ruby
-      brew install nodejs
+      brew install mosh zsh git nginx mysql redis ruby nodejs openssl
       install_gems
       ;;
     'ubuntu')
       apt-get update
       apt-get -y install build-essential
-      apt-get -y install imagemagick libmagick++-dev
-      apt-get -y install mosh zsh git nginx mysql-client mysql-server libmysql++-dev libmysqlclient-dev libmysql++3
-      apt-get -y install openssl libssl-dev
-      apt-get -y install nodejs
+      apt-get -y install mosh zsh git nginx mysql-client mysql-server libmysql++-dev libmysql++3
+      apt-get -y install openssl libssl-dev nodejs
       install_redis
       install_ruby
       install_gems
       ;;
     'centos')
       yum update
-      yum -y install mosh zsh git nginx mysql-client mysql-server ImageMagick ImageMagick-c++-devel 
-      yum -y install openssl openssl-devel
-      yum -y install nodejs
+      yum -y install mosh zsh git nginx mysql-client mysql-server
+      yum -y install openssl openssl-devel nodejs
       install_redis
       install_ruby
       install_gems
