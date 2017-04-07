@@ -3,13 +3,13 @@ plantform_name=$(python -mplatform | tr '[:upper:]' '[:lower:]')
 get_distribution_name(){
   case "$plantform_name" in
     *darwin*)
-      echo "the plantform is mac\n"
+      echo "mac"
       ;;
     *ubuntu*)
-      echo "the plantform is ubuntu\n"
+      echo "ubuntu"
       ;;
     *centos*)
-      echo "the plantform is centos\n"
+      echo "centos"
   esac
 }
 
@@ -20,7 +20,7 @@ distribution_name=$(get_distribution_name)
 install_redis(){
   redis_version="3.2.0"
   echo "Install redis by compiling from source code...\nversion: $redis_version\n"
-  if [ -f "$redis_dir_name.tar.gz" ];then
+  if [ -f "redis-$redis_version.tar.gz" ];then
     tar -xzvf redis-$redis_version.tar.gz -C /usr/local/
   else
     wget "http://download.redis.io/releases/redis-$redis_version.tar.gz"
