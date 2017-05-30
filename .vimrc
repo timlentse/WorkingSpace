@@ -11,6 +11,8 @@ set showmatch
 "command autocomplete suggestions
 set wildmenu
 set wildmode=longest:full,full
+"use ack for grep
+set grepprg=ack
 
 "scrolling {
 set scrolloff=5
@@ -26,6 +28,7 @@ set autowrite		" Automatically save before commands like :next and :make
 set hidden		  " Hide buffers when they are abandoned
 set number 
 set formatoptions-=cro " Disable continue comment
+set showmatch   " highlight matching [{()}]
 
 " Don't use .swp files, git commit a lot and log your changes
 set nobackup
@@ -39,6 +42,8 @@ set foldmethod=marker
 set foldlevel=0
 set modelines=1
 " }
+
+set macmeta
 
 " Default indetation {{{
 " size of a hard tabstop
@@ -120,6 +125,12 @@ function s:StartVundle()
   Plugin 'jiangmiao/auto-pairs'
 
   Plugin 'Chiel92/vim-autoformat'
+   
+  " a vim plug-in which provides support for expanding abbreviations similar to emmet.
+  Plugin 'mattn/emmet-vim'
+
+  " vim-multiple-cursors
+  Plugin 'terryma/vim-multiple-cursors'
 
   " All of your Plugins must be added before the following line
   call vundle#end()            " required
@@ -150,6 +161,8 @@ if ! exists('*vundle#rc')
   else
     echomsg "You should install git and continue."
   endif
+else
+  call s:StartVundle()
 endif
 " }}}
 
@@ -209,6 +222,10 @@ nnoremap 5 %
 nnoremap 1 za
 nnoremap , zO
 nnoremap ,, zC
+" "auto pairs
+let g:AutoPairsShortcutToggle = '<C-\>'
+let g:AutoPairsShortcutFastWrap = '<C-e>'
+let g:AutoPairsShortcutJump = '<C-k>'
 " }}}
 
 " Set vim as crontab editor {{{

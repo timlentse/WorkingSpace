@@ -17,11 +17,19 @@ ENABLE_CORRECTION="true"
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 
-plugins=(git bundler osx rake rails ruby fasd)
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git sublime bundler osx rake rails ruby fasd z)
 
 # }}}
 
+
 # User configuration {{{ 
+
+# Start byobu on when starting terminal
+# byobu
 
 # Coustomize highlight in zsh
 if [ "$TERM" = xterm ]; then TERM=xterm-256color; fi
@@ -32,34 +40,44 @@ if [ "$TERM" = xterm ]; then TERM=xterm-256color; fi
 export ZSH=~/.oh-my-zsh
 
 # PATH ENV
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/Users/timlentse/android-ndk-r13b:/Users/timlentse/Library/Python/2.7/bin"
 
 # Set language environment
 export LANG=en_US.UTF-8
 export LC_CTYPE="en_US.UTF-8"
 
-# Set Vim as default editor
+# Set default editor
 export EDITOR=vim
 
-# Set rails environment( development production )
-export RAILS_ENV=production
+# Set rails environment
+# export RAILS_ENV=development
+export RAILS_ENV=development
 
-# SSH
+# ssh
 export SSH_KEY_PATH="~/.ssh"
 
-# RAILS_ENV_SECRET(You may change this)
+#RAILS_ENV_SECRET
 export SECRET_KEY_BASE="c8f73956e6c009fed776f919776c6424599e664e"
+
+export JAVA_HOME=/Library/Internet\ Plug-Ins/JavaAletPlugin.plugin/Contents/Home
 # }
 
+# Theos env
+export THEOS=/opt/theos
 source $ZSH/oh-my-zsh.sh
+
+# cd foo with `cd` 
+setopt AUTO_CD
 
 # Set alias command shortcut {
 alias gs='git status'
 alias bri='brew install'
 alias bru='brew update'
 alias brd='brew doctor'
+# for linux {
 alias sai='sudo apt-get install'
 alias syi='sudo yum install'
+# }
 alias vz='vi ~/.zshrc'
 alias vm='vi ~/.vimrc'
 alias bi='sudo bundle install --verbose'
@@ -86,10 +104,10 @@ for arg in ${(z)BUFFER}; do
     colorize=false
     res=$(LC_ALL=C builtin type $arg 2>/dev/null)
     case $res in
-      *'reserved word'*)   style="fg=magenta,bold";
-      *'alias for'*)       style="fg=cyan,bold";
-      *'shell builtin'*)   style="fg=yellow,bold";
-      *'shell function'*)  style='fg=green,bold';
+      *'reserved word'*)   style="fg=magenta,bold";;
+      *'alias for'*)       style="fg=cyan,bold";;
+      *'shell builtin'*)   style="fg=yellow,bold";;
+      *'shell function'*)  style='fg=green,bold';;
       *"$arg is"*)
         [[ $arg = 'sudo' ]] && style="fg=red,bold" || style="fg=blue,bold";;
       *)                   style='none,bold';;
@@ -105,6 +123,8 @@ check-cmd-backward-delete-char() { zle .backward-delete-char && recolor-cmd }
 
 zle -N self-insert check-cmd-self-insert
 zle -N backward-delete-char check-cmd-backward-delete-char
+
+alias crontab="VIM_CRONTAB=true crontab"
 
 # }
 
