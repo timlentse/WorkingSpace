@@ -43,8 +43,6 @@ set foldlevel=0
 set modelines=1
 " }
 
-set macmeta
-
 " Default indetation {{{
 " size of a hard tabstop
 set autoindent
@@ -125,7 +123,7 @@ function s:StartVundle()
   Plugin 'jiangmiao/auto-pairs'
 
   Plugin 'Chiel92/vim-autoformat'
-   
+
   " a vim plug-in which provides support for expanding abbreviations similar to emmet.
   Plugin 'mattn/emmet-vim'
 
@@ -228,9 +226,17 @@ let g:AutoPairsShortcutFastWrap = '<C-e>'
 let g:AutoPairsShortcutJump = '<C-k>'
 " }}}
 
+" always show airline
+set laststatus=2
+"airline config
+let g:airline#extensions#tabline#enabled = 1
 " Set vim as crontab editor {{{
 if $VIM_CRONTAB == "true"
   set nobackup
   set nowritebackup
 endif
 "}}}
+
+" Execute codes from vim current buffer{{{
+:noremap <leader>r :!ruby %<cr>
+" }}}
