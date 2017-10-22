@@ -3,10 +3,7 @@
 " Use dark background and enable syntax highlight
 set nocompatible
 syntax enable
-set background=dark
-
-" Highlight match case
-set showmatch
+set background=light
 
 "command autocomplete suggestions
 set wildmenu
@@ -109,7 +106,6 @@ function s:StartVundle()
   "auto saves file, quite useful when I choose not to use swap files {
   Plugin 'vim-scripts/vim-auto-save'
   " }
-  Plugin 'altercation/vim-colors-solarized'
 
   "Vim substitute preview tool
   Plugin 'osyo-manga/vim-over'
@@ -129,7 +125,7 @@ function s:StartVundle()
 
   " vim-multiple-cursors
   Plugin 'terryma/vim-multiple-cursors'
-
+  
   " All of your Plugins must be added before the following line
   call vundle#end()            " required
 endfunction
@@ -191,15 +187,19 @@ map qi :q!
 map <C-a> ggVG
 map <C-c> y:call system("pbcopy", getreg("\""))<CR>
 map vp :vsplit
-" for rails-vim {
+" for vim-rails {
 map em :Emodel
 map ev :Eview
 map ec :Econtroller
 map ej :Ejavascript
 map es :Estylesheet
-map ei :Eimages
-map ema :Email
+map ei :Einitializer
+map fm :Email
 map eb :Ejob
+map eh :Ehelper
+map et :Etask
+map ee :Eevironment
+map el :Elib
 "}
 map cap ca(
 map caq ca"
@@ -240,3 +240,6 @@ endif
 " Execute codes from vim current buffer{{{
 :noremap <leader>r :!ruby %<cr>
 " }}}
+let &t_ZH="\e[3m"
+let &t_ZR="\e[23m"
+highlight Comment cterm=italic
